@@ -1,5 +1,5 @@
 <?php
-    define("VISA_DEVELOPMENT", false);
+    define("VISA_DEVELOPMENT", true);
 
     // Desarrollo Visa
     define('VISA_DEV_MERCHANT_ID', '341198214');

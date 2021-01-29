@@ -4,6 +4,13 @@
 
 		<ul class="sidebar-menu">
 
+			<li>
+				<a href="inicio">
+					<i class="fa fa-bar-chart"></i>
+					<span>INICIO</span>
+				</a>
+			</li>
+
 			<?php
 
 			$items = $_SESSION["productos"];
@@ -13,7 +20,7 @@
 					foreach ($producto as $value) {
 						$id = $value->ProductoId;
 						$nombre = $value->Descripcion;
-
+						// $_SESSION["ultPerPago"] = $value->UltimoPeriodoPago;
 						if ($id == 1) {
 								
 							echo '<li class="active">

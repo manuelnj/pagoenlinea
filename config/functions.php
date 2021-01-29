@@ -3,37 +3,49 @@
 
     function generateToken() {
         $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => VISA_URL_SECURITY,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_HTTPHEADER => array(
-            "Accept: */*",
-            'Authorization: '.'Basic '.base64_encode(VISA_USER.":".VISA_PWD)
-            ),
-        ));
+
+        $options = array(   CURLOPT_URL => 'https://apitestenv.vnforapps.com/api.security/v1/security',
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_ENCODING => "",
+                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                            CURLOPT_CUSTOMREQUEST => "POST",
+                            CURLOPT_HTTPHEADER => array(
+                            "Accept: */*",
+                            'Authorization: '.'Basic '.base64_encode('integraciones.visanet@necomplus.com'.":".'d5e7nk$M')
+                        ));
+
+
+        curl_setopt_array($curl, $options);
         $response = curl_exec($curl);
         curl_close($curl);
         return $response;
     }
 
     function generateSesion($amount, $token) {
+
+        $email = $_SESSION["envEmail"];
+        if (is_null($email)) {
+            $email = "soporte@calperu.org.pe";
+        }
+
+        $tipodoc = $_SESSION["envTipDoc"];
+        $nrodoc = $_SESSION["envNroDoc"];
+
+
         $session = array(
             'amount' => $amount,
             'antifraud' => array(
                 'clientIp' => $_SERVER['REMOTE_ADDR'],
                 'merchantDefineData' => array(
-                    'MDD4' => "mail@domain.com",
-                    'MDD33' => "DNI",
-                    'MDD34' => '87654321'
+                    'MDD4' => $email,
+                    'MDD33' => $tipodoc,
+                    'MDD34' => $nrodoc
                 ),
             ),
             'channel' => 'web',
         );
         $json = json_encode($session);
-        $response = json_decode(postRequest(VISA_URL_SESSION, $json, $token));
+        $response = json_decode(postRequest('https://apitestenv.vnforapps.com/api.ecommerce/v2/ecommerce/token/session/341198214', $json, $token));
         return $response->sessionKey;
     }
 
@@ -53,7 +65,7 @@
             'sponsored' => null
         );
         $json = json_encode($data);
-        $session = json_decode(postRequest(VISA_URL_AUTHORIZATION, $json, $token));
+        $session = json_decode(postRequest('https://apitestenv.vnforapps.com/api.authorization/v3/authorization/ecommerce/341198214', $json, $token));
         return $session;
     }
 
@@ -77,7 +89,8 @@
     }
 
     function generatePurchaseNumber(){
-        $archivo = "config/assets/purchaseNumber.txt";
+        // $archivo = "assets/purchaseNumber.txt";
+        $archivo = "C:\\xampp\\htdocs\\pagoenlinea\\config\\assets\\purchaseNumber.txt";
         $purchaseNumber = 222;
         $fp = fopen($archivo,"r");
         $purchaseNumber = fgets($fp, 100);

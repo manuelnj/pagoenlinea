@@ -49,14 +49,25 @@
       $valCuota = $retPrecio["precio"];
       $desProducto = $retPrecio["descripcionproducto"];
 
+      
+
     ?>
 
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-6">
             <div class="box box-primary">
               <div class="box-header with-border">
                 <!-- <h3>Cuotas Ordinarias</h3> -->
+                <?php 
+                  
+                  $rpta = ControladorPagos::ctrUltimoPeriodoPago($_SESSION["cal"], $codProd);
+
+                  $periodoPago = $rpta["periodo"];
+                
+                ?>
+                <h5 class="text-uppercase">Último Periodo de Pago: <strong><?php echo $periodoPago; ?></strong></h5>
               </div>
+
               <form action="" role="form" method="post">
                 <div class="box-body">
                   
@@ -87,9 +98,14 @@
                                     <label for="">Seleccionar casilla :</label>
                                     <select class="form-control input-sm text-uppercase" name="valorCasilla" id="valorCasilla">
                                       <option value="0">:: seleccionar casilla ::</option>';
-                                      foreach ($retLstCasilla as $key => $value) {
-                                        echo '<option value='.$value["NumeroCasilla"].'>'.$value["NumeroCasilla"].'</option>';                                                   
+                                      if ($totCasilla == 1) {
+                                        echo '<option value='.$retLstCasilla["NumeroCasilla"].'>'.$retLstCasilla["NumeroCasilla"].'</option>';  
+                                      }else{
+                                        foreach ($retLstCasilla as $key => $value) {
+                                          echo '<option value='.$value["NumeroCasilla"].'>'.$value["NumeroCasilla"].'</option>';                                                   
+                                        }
                                       }
+                                      
                       echo  '       </select>
                                   </div>
                                 </div>
@@ -106,7 +122,7 @@
                             </div>';
                     }
                   ?>
-
+                  <input type="hidden" id="ultPeriodoPago" value="<?php echo $periodoPago; ?>">
                   <div class="form-group">
                     <label for="">Cuotas :</label>
                     <select class="form-control input-sm text-uppercase" name="selCuota" id="selCuota">

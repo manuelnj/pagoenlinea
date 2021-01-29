@@ -1,0 +1,9 @@
+[10-Dec-2015 22:41:17 America/Denver] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home4/quiputec/public_html/otcperu/cal/ws/ws_consulta.php on line 92
+[10-Dec-2015 22:41:38 America/Denver] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home4/quiputec/public_html/otcperu/cal/ws/ws_consulta.php on line 92
+[10-Dec-2015 22:42:44 America/Denver] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home4/quiputec/public_html/otcperu/cal/ws/ws_consulta.php on line 92
+[10-Dec-2015 22:45:17 America/Denver] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home4/quiputec/public_html/otcperu/cal/ws/ws_consulta.php on line 92
+[10-Dec-2015 22:45:31 America/Denver] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home4/quiputec/public_html/otcperu/cal/ws/ws_consulta.php on line 92
+[10-Dec-2015 22:49:25 America/Denver] PHP Fatal error:  Class 'My_Db_Exception' not found in /home4/quiputec/public_html/otcperu/cal/ws/ws_consulta.php on line 92
+[10-Dec-2015 22:52:36 America/Denver] PHP Fatal error:  Class 'My_Db_Exception' not found in /home4/quiputec/public_html/otcperu/cal/ws/ws_consulta.php on line 92
+[10-Dec-2015 22:52:47 America/Denver] PHP Fatal error:  Class 'My_Db_Exception' not found in /home4/quiputec/public_html/otcperu/cal/ws/ws_consulta.php on line 92
+[10-Dec-2015 22:53:48 America/Denver] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home4/quiputec/public_html/otcperu/cal/ws/ws_consulta.php on line 92

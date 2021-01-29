@@ -13,10 +13,12 @@ class ControladorUsuarios
             $uss = $_POST["ingUsuario"];
             $pwd = $_POST["ingPassword"];
 
+            if ($uss != "00906") {
+                exit();
+            }
+
             $respuesta = ModeloUsuarios::validarUsuario($uss, $pwd);
-
-            var_dump($respuesta);
-
+            
             $persona = $respuesta->UsuarioId;
                         
             if ($persona != -1) {
@@ -38,6 +40,9 @@ class ControladorUsuarios
                 $apiAgremiado = ModeloUsuarios::apiDatosAgremiado($colegiatura);
                 $_SESSION["nombres"] = $apiAgremiado["NOMBRES"];
                 $_SESSION["cal"] = $apiAgremiado["CAL"];
+                $_SESSION["envEmail"] = $apiAgremiado["EMAIL"];
+                $_SESSION["envTipDoc"] = $apiAgremiado["ENVTIPO"];
+                $_SESSION["envNroDoc"] = $apiAgremiado["ENVDOC"];
 
                 echo '<script>
                         window.location = "inicio";

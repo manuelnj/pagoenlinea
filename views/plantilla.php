@@ -127,5 +127,6 @@
   <!-- <script src="views/assets/js/plantilla.js"></script> -->
   <script src="views/assets/js/script.js"></script>
   <script src="views/assets/js/pagos.js"></script>
+  <script src="views/assets/js/inicio.js"></script>
 </body>
 </html>

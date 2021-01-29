@@ -1,4 +1,5 @@
 <?php
+// phpinfo();
 
 date_default_timezone_set('America/Lima');
 
@@ -6,7 +7,7 @@ $secure = true;
 $httponly = true; 
 $samesite = 'None';
 
-session_set_cookie_params('/; samesite='.$samesite, $secure, $httponly);
+// session_set_cookie_params('/; samesite='.$samesite, $secure, $httponly);
 
 // session_set_cookie_params(["SameSite" => "None"]);
 // session_set_cookie_params(["Secure" => "true"]);
@@ -18,7 +19,7 @@ session_start();
 ini_set('date.timezone', 'America/Lima');
 
 // config.
-require_once "config/functions.php";
+include "config/functions.php";
 
 // controladores
 require_once "controllers/plantilla.controlador.php";

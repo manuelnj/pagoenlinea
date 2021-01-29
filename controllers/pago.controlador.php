@@ -2,6 +2,19 @@
 
 class ControladorPagos{
 
+    //OBTENER EL ULTIMO PERIODO DE PAGO
+    static public function ctrUltimoPeriodoPago($cal, $id){
+
+        if ($id == "4") {
+            $itemCod = 'CT006';
+        }else{
+            $itemCod = 'CT001';
+        }
+
+        $respuesta = ModeloPagos::mdlUltimoPeriodoPago($cal, $itemCod);
+
+        return $respuesta;
+    }
     // funcion para traer los precios del producto
     static public function ctrConsultarPrecio($valor){
 
@@ -117,5 +130,32 @@ class ControladorPagos{
         return $respuesta;
 
     }
+
+    // respuesta de visaNet
+    static public function ctrActualizaRespuestaVisa($transaccion, $data){
+        
+        $respuesta = ModeloPagos::mdlActualizaRespuestaVisa($transaccion, $data);
+
+        return $respuesta;
+
+    }
+
+    // ultimos pagos.
+    static public function ctrUltimosPagos($cal){
+        
+        $respuesta = ModeloPagos::mdlUltimosPagos($cal);
+
+        return $respuesta;
+    }
+
+    // suma de ultimos pagos.
+    static public function ctrSumaUltPagos($cal, $id){
+        
+        $respuesta = ModeloPagos::mdlSumaUltPagos($cal, $id);
+
+        return $respuesta;
+    }
+
+
 
 }

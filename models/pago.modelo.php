@@ -4,6 +4,17 @@ require_once "conexion.php";
 
 class ModeloPagos{
 
+    static public function mdlUltimoPeriodoPago($cal, $item){
+
+        $url = "http://servicioscal.org.pe/APICasilla/apiCasillas.php?vCal03=".$cal."&vICod=".$item;
+        
+        $json = file_get_contents($url);
+
+		$datos = json_decode($json, true);
+
+		return $datos;
+    }
+
     static public function mdlConsultarPrecio($valor){
         
         $url = "http://servicioscal.org.pe/APICasilla/apiCasillas.php?vKeyProducto=".$valor;
@@ -123,13 +134,79 @@ class ModeloPagos{
         $stmt = Conexion::conectar()->prepare("UPDATE tb_transaccion SET visaETicket = :$pedido WHERE idTransaccion= :$transaccion;");
         $stmt -> bindParam(":".$transaccion,$transaccion,PDO::PARAM_STR);
         $stmt -> bindParam(":".$pedido,$pedido,PDO::PARAM_STR);
-        $stmt -> execute();
         if ($stmt->execute()) {
             return "ok";
         }else{
             return "error";
         }
         $stmt = null;
+    }
+
+    static public function mdlActualizaRespuestaVisa($transaccion, $data){
+
+        $stmt = Conexion::conectar()->prepare(" UPDATE tb_transaccion
+                                                SET                                         
+                                                estadosTransaccion = :estadosTransaccion,
+                                                visaRespuesta = :visaRespuesta,
+                                                visaEstado = :visaEstado,
+                                                visaCodAccion = :visaCodAccion,
+                                                visaDscCodAccion = :visaDscCodAccion,
+                                                visaPAN = :visaPAN,
+                                                visaNomEmisor = :visaNomEmisor,
+                                                visaECI = :visaECI,
+                                                visaDescECI = :visaDescECI,
+                                                visaCodAutor = :visaCodAutor,
+                                                visaIdUnico = :visaIdUnico,
+                                                visaImpAutorizado = :visaImpAutorizado,
+                                                visaFechaHoraTx = :visaFechaHoraTx,
+                                                visaDatoComercio = :visaDatoComercio
+                                                WHERE idTransaccion = :$transaccion AND visaETicket = :visaETicket;");
+
+        $stmt -> bindParam(":estadosTransaccion",$data["estadosTransaccion"],PDO::PARAM_STR);
+        $stmt -> bindParam(":visaRespuesta",$data["visaRespuesta"],PDO::PARAM_STR);
+        $stmt -> bindParam(":visaEstado",$data["visaEstado"],PDO::PARAM_STR);
+        $stmt -> bindParam(":visaCodAccion",$data["visaCodAccion"],PDO::PARAM_STR);
+        $stmt -> bindParam(":visaDscCodAccion",$data["visaDscCodAccion"],PDO::PARAM_STR);
+        $stmt -> bindParam(":visaPAN",$data["visaPAN"],PDO::PARAM_STR);
+        $stmt -> bindParam(":visaNomEmisor",$data["visaNomEmisor"],PDO::PARAM_STR);
+        $stmt -> bindParam(":visaECI",$data["visaECI"],PDO::PARAM_STR);
+        $stmt -> bindParam(":visaDescECI",$data["visaDescECI"],PDO::PARAM_STR);
+        $stmt -> bindParam(":visaCodAutor",$data["visaCodAutor"],PDO::PARAM_STR);
+        $stmt -> bindParam(":visaIdUnico",$data["visaIdUnico"],PDO::PARAM_STR);
+        $stmt -> bindParam(":visaImpAutorizado",$data["visaImpAutorizado"],PDO::PARAM_STR);
+        $stmt -> bindParam(":visaFechaHoraTx",$data["visaFechaHoraTx"],PDO::PARAM_STR);
+        $stmt -> bindParam(":visaDatoComercio",$data["visaDatoComercio"],PDO::PARAM_STR);
+        $stmt -> bindParam(":visaETicket",$data["visaETicket"],PDO::PARAM_STR);
+        $stmt -> bindParam(":".$transaccion,$transaccion,PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return "ok";
+        }else{
+            return "error";
+        }
+        $stmt = null;
+
+    }
+
+    static public function mdlUltimosPagos($cal){
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM tb_transaccion WHERE idCAL = :cal ORDER BY idTransaccion DESC LIMIT 5;");
+        $stmt -> bindParam(":cal",$cal,PDO::PARAM_STR);
+        $stmt -> execute();
+        return $stmt->fetchAll();
+        $stmt = null;
+
+    }
+
+    static public function mdlSumaUltPagos($cal, $id){
+
+        $stmt = Conexion::conectar()->prepare("SELECT SUM(impTotal) AS 'suma' FROM tb_transaccion WHERE idCAL = :cal AND idProducto=:producto AND visaEstado='AUTORIZADO';");
+        $stmt -> bindParam(":cal",$cal,PDO::PARAM_STR);
+        $stmt -> bindParam(":producto",$id,PDO::PARAM_STR);
+        $stmt -> execute();
+        return $stmt->fetch();
+        $stmt = null;
+
     }
 
 }
